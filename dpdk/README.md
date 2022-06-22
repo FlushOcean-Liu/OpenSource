@@ -9,10 +9,10 @@
 
 
 ## 2.DPDK核心组件
-1）环形缓冲管理（librte_ring）
-2）内存池管理（librte_mempool）
-3）网络报文缓冲区管理(librte_mbuf)
-4）定时器管理（librte_timer）
-5）以太网轮询驱动架构
-6）报文转发算法支持
-7）网络协议库（librte_net）
+1）环形缓冲管理（librte_ring）  
+2）内存池管理（librte_mempool）  
+3）网络报文缓冲区管理(librte_mbuf)  
+4）定时器管理（librte_timer）  
+5）以太网轮询驱动架构  
+6）报文转发算法支持  
+7）网络协议库（librte_net）  
