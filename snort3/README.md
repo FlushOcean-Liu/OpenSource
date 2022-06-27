@@ -3,3 +3,6 @@
 ## 主线流程
 
 main.cc:main->snort_main->main_loop
+
+![main thread](./img/snort_main_thread.jpg)
+
