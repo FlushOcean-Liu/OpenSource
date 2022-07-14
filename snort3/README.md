@@ -6,15 +6,15 @@
 ![](./img/main_loop.jpg)
 
   
-线程函数句柄main.cc:handle
+线程函数句柄main.cc:handle  
 ![](./img/main_thread_handle.jpg)
 
 
-线程start函数main.cc:Pig::start()
+线程start函数main.cc:Pig::start()  
 ![](./img/thread_start.jpg)
 
   
-线程函数analyzer.cc:Analyzer::operator()
+线程函数analyzer.cc:Analyzer::operator()  
 ![](./img/thread_function.jpg)
 
 
