@@ -8,5 +8,5 @@ pkg-config如何找到所需“.pc”文件，根据PKG_CONFIG_PATH来自定义�
 
 # 查找指定库
 
-查找libdpdk.cp库
+查找libdpdk.cp库:  
 pkg-config --cflags --libs libdpdk
