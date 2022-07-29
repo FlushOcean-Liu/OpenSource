@@ -7,3 +7,8 @@
 此时mbuf的headroom与tailroom就派上用场，每个mubf的headroom大小与tailroom的大小在创建的时候就已经确定，
 后续可以将解析报文关键信息存储到headroom或tailroom中，其他模块、进程在获取到mubf后，通过增加相应的偏移就能
 获取到已经解析过字段值。
+
+## 巨帧数据组装
+自定义mbuf数据发送时，如果组装巨帧，那么需要发送巨帧按照mbuf链式组合，
+
+第一个mbuf要包含数据头部信息如以太层，ip层，传输层，mbuf链后续单元只需承载数据部分即可，无需头部信息和headrom。
