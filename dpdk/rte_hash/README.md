@@ -60,7 +60,7 @@ void dpdk_rte_hash_example(void)
 ```
 
 陷阱一：
-经常有小伙伴在创建hash表时，参数：
+经常有小伙伴在创建hash表,不注意配置key_len与实际查询插入key 长度保持一致，导致hash表查询失败：
 ```c
 struct rte_hash_parameters hash_param={
         .name               = "rte_hash_example",
@@ -69,12 +69,9 @@ struct rte_hash_parameters hash_param={
         .hash_func          = rte_jhash,
         .hash_func_init_val = 0,
         .scoket_id          = 0,
-
-    };
+};
 ```
-中的key_len经常性的随意设置，导致rte_hash_lookup_data查找失败，实际上这里的key_len值要
 
-设置与实际输入key长度一致，最终hash表查找要与key比较key_len长度。
 
 
 
