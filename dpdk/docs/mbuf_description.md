@@ -58,7 +58,7 @@ int send_mbuf_data(uint8_t *data, int data_len, int ring_id)
     head->vlan_tci_outer = 0;
     
     head->pkt_len  = sizeof(struct ether_hdr) + copy_len;
-    head->data_off = RTE_PKTMBUF_HEADROOM;
+    head->data_off = RTE_PKTMBUF_HEADROOM;  // head_>data_off如果不设置headroom发送不出去
     
     _tx_updating_mac(head); /* 构造以太层数据，如果需要构造ip，传输层类似，本示例只有以太层，以太层后面就是data数据*/
     memcpy((void *)((uint8_t *)head->buf_addr+head->data_off+sizeof(struct ether_hdr)), 
@@ -69,14 +69,14 @@ int send_mbuf_data(uint8_t *data, int data_len, int ring_id)
 
     pre_mbuf=head;
     /* middle segment mbuf, first is head, start from second */
-    for( i = 1; i < num_seg; i++ ){
+    for( i = 1; i < num_seg; i++ ){  /* 巨帧构造mbuf链式存储，以太层、ip、传输层数据只需在第一个mbuf中加载data之前即可，其他后续mbuf*/
         mbuf = rte_mbuf_raw_alloc(tx_pktmbuf_pool[0]);
         if( NULL == mbuf ){
             break;
         }
         
         mbuf->nb_segs  = num_seg-i;
-        mbuf->data_off = 0;
+        mbuf->data_off = 0; /* 链式mbuf从第二个开始，无需预留headroom空间，全部存入数据 */
         if(left_len<copy_seg_len){
             memcpy((void *)mbuf->buf_addr, (void*)&data[data_offset], left_len);
             mbuf->data_len = left_len;
@@ -92,6 +92,7 @@ int send_mbuf_data(uint8_t *data, int data_len, int ring_id)
         pre_mbuf       =  mbuf;
     }
 
+    /* 构造好的mbuf链式数据入发送队列，后续就交给其他模块处理 */
     _tx_enqueue_mbuf(head, ring_id);
 
     return 1;
