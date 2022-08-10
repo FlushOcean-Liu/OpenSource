@@ -35,3 +35,31 @@
 14）Open vSwith中的DPDK性能加速  
 15）基于DPDK的存储软件优化
 
+
+
+## 4.DPDK专家之路
+DPDK源码
+1）内核驱动
+2）内存
+3）协议
+4）虚拟化
+5）CPU
+6）安全
+
+DPDK网络
+1）网络协议栈项目（arp，icmp，udp，ip，tcp）
+2）组件项目（mp，acl，kni，timer，bpf，mubuf）
+3）经典项目（dns，gateway，ddos，firewall，switch，pktgen）
+
+DPDK框架
+1）VPP
+2）虚拟交换机OVS
+3）golang网卡开发框架nff-go
+4）轻量级switch框架snabb（lua）
+5）高效磁盘IO读写SPDK
+
+性能测试
+1）性能指标（bps，pps，并发，最大时延，最小时延，平均时延，负载，包速fps，丢包率）
+2）测试方法（vpp sanbox，perf3灌包，rfc2544）
+3）测试工具（perf3，trex，testpmd，pktgen-dpdk）
+
