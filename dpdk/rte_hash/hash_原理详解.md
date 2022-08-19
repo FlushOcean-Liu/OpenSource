@@ -1,5 +1,67 @@
 
-## Hash算法原理--Cuckoo Hash
+# DPDK rte hash实现原理详解(dpdk-stable-18.11.11)
+
+## hash api函数
+
+```c
+struct rte_hash * 	rte_hash_create (const struct rte_hash_parameters *params)
+```
+
+### 1.创建函数
+
+### 2.查找  
+
+```c
+int rte_hash_lookup_data(const struct rte_hash *h, const void *key, void **data);  
+
+int rte_hash_lookup_with_hash_data(const struct rte_hash *h, const void *key,  
+					hash_sig_t sig, void **data);
+
+int32_t rte_hash_lookup(const struct rte_hash *h, const void *key);  
+
+int32_t rte_hash_lookup_with_hash(const struct rte_hash *h,  
+				const void *key, hash_sig_t sig);  
+
+
+int rte_hash_lookup_bulk_data(const struct rte_hash *h, const void **keys,  
+		      uint32_t num_keys, uint64_t *hit_mask, void *data[]);  
+
+int rte_hash_lookup_bulk(const struct rte_hash *h, const void **keys,  
+		      uint32_t num_keys, int32_t *positions);  
+
+int32_trte_hash_iterate(const struct rte_hash *h, const void **key, void **data, uint32_t *next);  
+
+``` 
+
+
+
+### 3.添加
+
+``` c
+int rte_hash_add_key_data(const struct rte_hash *h, const void *key, void *data);  
+
+
+int32_t rte_hash_add_key_with_hash_data(const struct rte_hash *h, const void *key,  
+						hash_sig_t sig, void *data);  
+
+
+int32_t rte_hash_add_key(const struct rte_hash *h, const void *key);  
+
+
+int32_t rte_hash_add_key_with_hash(const struct rte_hash *h, const void *key, hash_sig_t sig);  
+
+```
+
+### 3.删除
+
+```c
+int32_t rte_hash_del_key (const struct rte_hash *h, const void *key);  
+ 
+int32_t rte_hash_del_key_with_hash (const struct rte_hash *h, const void *key, hash_sig_t sig);  
+
+```
+
+## 原理简介  
 
 1）hash表中桶采用连续数组保存，每个桶有8个元素，根据key计算出两个散列位置（主，从）；
 
