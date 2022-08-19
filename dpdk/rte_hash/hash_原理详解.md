@@ -9,6 +9,19 @@
 ```c
 struct rte_hash * 	rte_hash_create (const struct rte_hash_parameters *params)
 ```
+  
+创建hash表初始化配置中的entries不能随意配置，创建hash表要根据此长度申请内存空间，要配置为实际单个key的字节数；
+```c
+struct rte_hash_parameters hash_param={
+        .name               = "rte_hash_example",
+        .entries            = 1000,
+        .key_len            = sizeof(int),
+        .hash_func          = rte_jhash,
+        .hash_func_init_val = 0,
+        .scoket_id          = 0,
+};
+```
+
 
 ### 1.2.查找  
 
