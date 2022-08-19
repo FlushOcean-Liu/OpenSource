@@ -79,15 +79,26 @@ int32_t rte_hash_del_key_with_hash (const struct rte_hash *h, const void *key, h
 
 要理解hash组织方式，先确定两个数组，桶buckets和key_store数组的管理方式；
 
-桶buckets结构图：
+**桶buckets结构说明:**
+* 1）buckets数量根据用户配置元素数量的2的指数倍，比如输入64，buckets就是64个，输出65，buckets时128；  
+* 2）根据key计算sig，根据sig计算 主散列和从散列位置；  
+* 3）buckets每个元素存放[ flag（是否使用标志），sig（根据key计算的sig）, key_index(存储在key_store中索引位置)]；  
+     共八组；  
+* 4）查找删除，比较简单，找到对应桶，根据桶中sig相同的项，找到key_store的index，根据index比对key_store中的key是否相同，
+     查找的返回，删除的释放key_store索引到空闲队列中，清空桶中数据；
+* 5）比较复杂的时添加hash元素，正常根据主从位置找到空闲桶元素，插入是没有问题，难点在于主从散列位置都没有空闲位置，
+     此时冲突处理需要剔除已有元素，剔除元素要重复插入方式去找空闲桶位置，如此类似，直到冲突达到阈值任务hash已满。  
 
 
 
 
 
 
-key_store结构图：
-
+**key_store结构说明：**
+* 1）key_store是数组，初始化创建时根据用户配置元素数量，给key_store配置多少个数组元素；
+* 2）key_store中数组索引空闲没有被使用的要加入空闲队列中，添加hash元素需要从队列中申请空闲key_store索引，  
+     删除hash元素时，需要将使用key_store索引加入空闲队列中；
+* 3）key_store数组内容包含key的内存空间，需要将key复制到内存空间中，value的指针，指向value所在内存地址；
 
 
 
