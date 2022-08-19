@@ -10,7 +10,10 @@
 struct rte_hash * 	rte_hash_create (const struct rte_hash_parameters *params)
 ```
   
-创建hash表初始化配置中的entries不能随意配置，创建hash表要根据此长度申请内存空间，要配置为实际单个key的字节数；
+创建hash表初始化配置中的entries不能随意配置，创建hash表要根据此长度申请内存空间，要配置为实际单个key的字节数；  
+
+如果配置参数key_len与hash查找时输入key长度不一致，会导致查找失败，这点需要注意，比对key时需要根据key_len进行比对；  
+
 ```c
 struct rte_hash_parameters hash_param={
         .name               = "rte_hash_example",
@@ -119,5 +122,10 @@ int32_t rte_hash_del_key_with_hash (const struct rte_hash *h, const void *key, h
 * 1）先在主散列桶位置找到空闲位置，若无空闲，则取从散列桶查找空闲位置；  
 * 2）若步骤1）找到空闲位置，则从key_store空闲队列获取空闲index，桶位置sig，index，flag赋值；  
 * 3）根据步骤2）中的index，找到key_store元素，复制key内容到key_store的key空间，value指针指向对应value内存地址；  
+
+
+## 3.hash添加元素，主从都无空闲位置处理方式
+
+
 
 
