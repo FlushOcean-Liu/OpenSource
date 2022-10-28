@@ -83,13 +83,14 @@ int32_t rte_hash_del_key_with_hash (const struct rte_hash *h, const void *key, h
 要理解hash组织方式，先确定两个数组，桶buckets和key_store数组的管理方式；
 
 **桶buckets结构说明:**
-* 1）buckets数量根据用户配置元素数量的2的指数倍，比如输入64，buckets就是64个，输出65，buckets时128；  
-* 2）根据key计算sig，根据sig计算 主散列和从散列位置；  
-* 3）buckets每个元素存放[ flag（是否使用标志），sig（根据key计算的sig）, key_index(存储在key_store中索引位置)]；  
-     共八组；  
-* 4）查找删除，比较简单，找到对应桶，根据桶中sig相同的项，找到key_store的index，根据index比对key_store中的key是否相同，
+* 1）buckets数量根据用户配置元素数量的2的指数倍，比如输入64(64等于2的6次方)，buckets就是64个，  
+     输入65（65大于2的6次方，小于2的7次方）向上取2指数幂，所以buckets值是128；  
+* 2）根据key计算sig主桶索引，根据主桶sig在进行hash算法变换得到次桶位置；  
+* 3）buckets每个元素存放：是否已经被使用标志flag，根据key计算的主sig或次sig, 存储在key_store数组中索引位置index；  
+     每个桶有可存储八组元素；  
+* 4）查找删除比较简单，找到对应桶，遍历8个元素，找到与查找sig相同的，取到key_store的index，根据index比对key_store中的key是否相同，
      查找的返回，删除的释放key_store索引到空闲队列中，清空桶中数据；
-* 5）比较复杂的时添加hash元素，正常根据主从位置找到空闲桶元素，插入是没有问题，难点在于主从散列位置都没有空闲位置，
+* 5）添加hash元素比较复杂，正常根据主从位置找到空闲桶元素，插入是没有问题，难点在于主从散列位置都没有空闲位置，
      此时冲突处理需要剔除已有元素，剔除元素要重复插入方式去找空闲桶位置，如此类似，直到冲突达到阈值任务hash已满。  
 
 
