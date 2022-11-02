@@ -133,5 +133,6 @@ int32_t rte_hash_del_key_with_hash (const struct rte_hash *h, const void *key, h
     或者移动节点到达上限，则认为哈希表已满。
 
 
-
+参考：
+https://zhuanlan.zhihu.com/p/486187386
 
