@@ -80,7 +80,7 @@ int32_t rte_hash_del_key_with_hash (const struct rte_hash *h, const void *key, h
 
 ## 2.原理简介  
 
-要理解hash组织方式，先确定两个数组，桶buckets和key_store数组的管理方式；
+要理解hash组织方式，先确定两个数组，桶buckets和key_store数组的管理方式，使用Cuckoo(布谷鸟)哈希算法来解决冲突；
 
 **桶buckets结构说明:**
 * 1）buckets数量根据用户配置元素数量的2的指数倍，比如输入64(64等于2的6次方)，buckets就是64个，  
