@@ -13,7 +13,6 @@ buildtools/meson.build:52:8: ERROR: Problem encountered: missing python module: 
 pip3 install pyelftools
 ```
 
-1
 
 ## 2.network_engineering
 记录网络零散知识点
